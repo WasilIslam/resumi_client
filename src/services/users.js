@@ -11,6 +11,7 @@ const getUser = async () => {
   return user;
 };
 const googleLogin = async (googleData) => {
+  console.log(googleData);
   const {data} = await instance.post("googleLogin", {
     token: googleData.tokenId,
   });
