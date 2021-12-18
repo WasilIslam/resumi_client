@@ -1,0 +1,42 @@
+import axios from "axios";
+const base_url = process.env.REACT_APP_API + "/users";
+
+const instance = axios.create({
+  withCredentials: true,
+  baseURL: base_url,
+});
+
+const getUser = async () => {
+  const {data: user} = await instance.get();
+  return user;
+};
+const googleLogin = async (googleData) => {
+  const {data} = await instance.post("googleLogin", {
+    token: googleData.tokenId,
+  });
+  return data;
+};
+const getContainerResumis = async () => {
+  return await instance.get("getContainerResumis");
+};
+const getContainerResumi = async (title) => {
+  const {data}=await instance.get("getContainerResumi/"+title);
+  return data;
+};
+const getObservingResumis = async () => {
+  const {data}= await instance.get("getObservingResumis");
+  return data;
+};
+const observeResumi = async (resumiTitle) => {
+  const res = await instance.post("observeResumi",{resumiTitle});
+  return res.data;
+};
+const saveResumi=async (resumiTitle)=>{
+    const res = await instance.post("saveResumi",{resumiTitle});
+    return res.data;
+}
+const updateResumiData=async (resumiTitle,resumiData)=>{
+    const res = await instance.post("updateResumi",{resumiTitle,resumiData});
+    return res.data;
+}
+export {googleLogin, getUser, getContainerResumi,getContainerResumis, getObservingResumis,observeResumi,saveResumi,updateResumiData };

@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import 'antd/dist/antd.css';
+import * as React from "react";
+import {Routes, Route, BrowserRouter} from "react-router-dom";
+import ContainerResumi from "./pages/ContainerResumi/ContainerResumi";
+import ObservingResumi from "./pages/ObservingResumi/ObservingResumi";
+import User from "./pages/User/User";
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<User />}></Route>
+        <Route path="/edit/:title" element={<ContainerResumi />}></Route>
+        <Route path="/view/:title" element={<ObservingResumi />}></Route>
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 }
-
-export default App;
