@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
-import {getUser} from "../../services/users";
+import {getUser, logOut} from "../../services/users";
 import Login from "../Login/Login";
-import {Tabs} from "antd";
+import {Button, Spin, Tabs} from "antd";
 import Observing from "../Observing/Observing";
 import Container from "../Container/Container";
 
@@ -11,6 +11,7 @@ const {TabPane} = Tabs;
 export default function User() {
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(null);
+  const logout=async()=>{await logOut();setIsAuth(false)}
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -23,15 +24,19 @@ export default function User() {
       }
     };
     initialize();
-  }, []);
+  }, [isAuth]);
 
   if (isAuth === null) {
     return <div>Loading Page</div>;
   } else if (isAuth === false) {
-    return <Login />;
+    return <Login setIsAuth={setIsAuth}/>;
   }
-
+  if(!user)return <Spin/>
   return (
+    <>
+    <div style={{width:"100%",textAlign:"right"}}>
+      <Button onClick={logout}>Logout</Button>
+    </div>
     <Tabs defaultActiveKey="2" type="card" centered size="large" tabPosition="top">
       <TabPane tab="Observing" key={1}>
         <Observing resumis={user.observing.resumis}/>
@@ -40,5 +45,6 @@ export default function User() {
         <Container resumis={user.container.resumis}/>
       </TabPane>
     </Tabs>
+    </>
   );
 }
