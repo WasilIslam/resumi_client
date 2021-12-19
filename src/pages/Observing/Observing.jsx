@@ -18,13 +18,14 @@ function NewResumiInit() {
 
   const handleOk = async () => {
     try {
+      if (await isTitleFree(resumiTitle)) return setAlertMessage(resumiTitle + " not found!");
       setConfirmLoading(true);
       await observeResumi(resumiTitle);
       navigate("view/" + resumiTitle);
       setConfirmLoading(false);
       setVisible(false);
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   };
 
@@ -37,10 +38,6 @@ function NewResumiInit() {
   };
   const handleResumiInput = async (val) => {
     if (val === "") return setResumiTitle(val);
-    if (await isTitleFree(val)) setAlertMessage("Resumi Not Found");
-    else {
-      setAlertMessage(null);
-    }
     setResumiTitle(filter(val));
   };
   return (
@@ -49,7 +46,6 @@ function NewResumiInit() {
         Observe Resumi
       </Button>
       <Modal
-        okButtonProps={{disabled: AlertMessage ? true : false}}
         title="Title"
         visible={visible}
         onOk={handleOk}
@@ -73,7 +69,7 @@ export default function Container({resumis}) {
   return (
     <div>
       <List
-        style={{margin:"10px"}}
+        style={{margin: "10px"}}
         bordered
         header={header}
         dataSource={resumis}
