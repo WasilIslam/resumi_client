@@ -1,9 +1,15 @@
 import axios from "axios";
+import { deleteCookie, getCookie, setCookie } from "../utils/cookies";
 const base_url = process.env.REACT_APP_API + "/users";
 
 const instance = axios.create({
-  withCredentials: true,
   baseURL: base_url,
+});
+
+instance.interceptors.request.use(function (config) {
+  const token = getCookie(process.env.REACT_APP_COOKIE_TOKEN);
+  config.headers[process.env.REACT_APP_COOKIE_TOKEN] =  token;
+  return config;
 });
 
 const getUser = async () => {
@@ -15,6 +21,7 @@ const googleLogin = async (googleData) => {
   const {data} = await instance.post("googleLogin", {
     token: googleData.tokenId,
   });
+  setCookie(process.env.REACT_APP_COOKIE_TOKEN,data);
   return data;
 };
 const logIn = async (email, password) => {
@@ -22,11 +29,11 @@ const logIn = async (email, password) => {
     email,
     password,
   });
+  setCookie(process.env.REACT_APP_COOKIE_TOKEN,data);
   return data;
 };
 const logOut = async () => {
-  const {data} = await instance.post("logOut");
-  return data;
+  deleteCookie(process.env.REACT_APP_COOKIE_TOKEN)
 };
 const signUp = async (name, email, password) => {
   const {data} = await instance.post("signUp", {
