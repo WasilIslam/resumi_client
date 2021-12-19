@@ -2,7 +2,6 @@ import axios from "axios";
 const base_url = process.env.REACT_APP_API + "/resumis";
 
 const instance = axios.create({
-  withCredentials: true,
   baseURL: base_url,
 });
 

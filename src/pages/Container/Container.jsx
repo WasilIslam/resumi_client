@@ -45,7 +45,7 @@ function NewResumiInit() {
   };
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button type="primary" size="large" onClick={showModal}>
         Add Resumi
       </Button>
       <Modal
@@ -64,18 +64,22 @@ function NewResumiInit() {
 }
 
 export default function Container({resumis}) {
+  const header = (
+    <div style={{display: "flex", justifyContent: "space-between"}}>
+      <Title level={3}>Container</Title>
+      <NewResumiInit />
+    </div>
+  );
   return (
     <div>
-      <div>
-        <NewResumiInit />
-      </div>
-      <Title level={3}>My Resumis</Title>
       <List
+        style={{margin:"10px"}}
         bordered
+        header={header}
         dataSource={resumis}
         renderItem={(resumi) => (
           <List.Item>
-            <Link to={"edit/" + resumi}>{resumi}</Link>
+            <Link to={"view/" + resumi}>{resumi}</Link>
           </List.Item>
         )}
       />

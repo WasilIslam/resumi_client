@@ -3,7 +3,7 @@ import React from "react";
 import {useState} from "react";
 import GoogleLogin from "../../components/GoogleLogin/GoogleLogin";
 import {logIn, signUp} from "../../services/users";
-
+import {isMobile} from "react-device-detect"
 // const handleLogin = async (googleData) => {
 //   const data = await googleLogin(googleData);
 //   console.log(data);
@@ -69,7 +69,8 @@ export default function Auth({setIsAuth}) {
         marginLeft: "50%",
         textAlign: "center",
         transform: "translateX(-50%)",
-        width: "50%",
+        
+        width: isMobile? "100%":"50%",
         padding: "30px",
         marginTop: "10%",
         border: "1px solid darkgrey",

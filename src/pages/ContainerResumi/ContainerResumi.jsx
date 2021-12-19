@@ -1,6 +1,6 @@
 import {Button, Divider, Spin, Switch} from "antd";
 import React, {useState, useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {getContainerResumi, updateResumiData} from "../../services/users";
 import Editor from "../../components/SunEditor/Editor";
 import Viewer from "../../components/SunEditor/Viewer";
@@ -37,11 +37,16 @@ export default function ContainerResumi() {
     };
     initialize();
   }, [title]);
+  const navigate=useNavigate();
+  const goback=()=>{
+    navigate(-1);
+  }
   if (!resumi) return <Spin tip="loading"></Spin>;
   return (
     <>
       <div style={{width: "100%", padding: "10px", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
         <div style={{display: "flex", gap: "10px"}}>
+          <Button onClick={goback}>← </Button>
           <h1 style={{lineHeight: "1"}}>{resumi.title}</h1>
         </div>
         <Switch onClick={setEditMode} checkedChildren="Edit Mode" unCheckedChildren="View Mode" checked={editMode} style={{zoom: "1.5"}} />

@@ -2,7 +2,7 @@ import {Alert, Button, Input, List, Modal, Typography} from "antd";
 import React from "react";
 import {isTitleFree} from "../../services/resumis";
 import {Link, useNavigate} from "react-router-dom";
-import { observeResumi } from "../../services/users";
+import {observeResumi} from "../../services/users";
 const {Title} = Typography;
 
 function NewResumiInit() {
@@ -36,8 +36,8 @@ function NewResumiInit() {
     return val.replace(" ", "-").toLowerCase();
   };
   const handleResumiInput = async (val) => {
-    if(val==="")return setResumiTitle(val);
-    if ((await isTitleFree(val))) setAlertMessage("Resumi Not Found");
+    if (val === "") return setResumiTitle(val);
+    if (await isTitleFree(val)) setAlertMessage("Resumi Not Found");
     else {
       setAlertMessage(null);
     }
@@ -45,8 +45,8 @@ function NewResumiInit() {
   };
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Add Resumi
+      <Button type="primary" size="large" onClick={showModal}>
+        Observe Resumi
       </Button>
       <Modal
         okButtonProps={{disabled: AlertMessage ? true : false}}
@@ -64,14 +64,18 @@ function NewResumiInit() {
 }
 
 export default function Container({resumis}) {
+  const header = (
+    <div style={{display: "flex", justifyContent: "space-between"}}>
+      <Title level={3}>Observing</Title>
+      <NewResumiInit />
+    </div>
+  );
   return (
     <div>
-      <div>
-        <NewResumiInit />
-      </div>
-      <Title level={3}>Observing Resumis</Title>
       <List
+        style={{margin:"10px"}}
         bordered
+        header={header}
         dataSource={resumis}
         renderItem={(resumi) => (
           <List.Item>
